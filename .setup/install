@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# 
+git clone --bare https://github.com/tserhii-gh/dotfiles.git $HOME/.dotfiles
+
+dotfiles()
+{
+	dotfiles="git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME"'
+} 
+
+dotfiles checkout
+dotfiles config --local status.showUntrackedFiles no
