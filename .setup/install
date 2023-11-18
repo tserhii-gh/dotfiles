@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 
+# https://tinyurl.com/arch-gh-install
 git clone --bare https://github.com/tserhii-gh/dotfiles.git $HOME/.dotfiles
 
 dotfiles()
