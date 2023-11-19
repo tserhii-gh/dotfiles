@@ -1,0 +1,76 @@
+#!/bin/bash
+
+
+GOBACK=""
+
+
+night() {
+  xfconf-query -c xsettings -p /Net/ThemeName -t string -s "Matcha-dark-sea"
+  xfconf-query -c xfwm4 -p /general/theme -t string -s "Matcha-dark-sea"
+  echo -e "--force-dark-mode\n--enable-features=WebUIDarkMode" >>"$HOME"/.config/chromium-flags.conf
+}
+
+day() {
+  xfconf-query -c xsettings -p /Net/ThemeName -t string -s "Matcha-sea"
+  xfconf-query -c xfwm4 -p /general/theme -t string -s "Matcha-sea"
+  sed -i '/--force-dark-mode/d' "$HOME"/.config/chromium-flags.conf
+  sed -i '/--enable-features=WebUIDarkMode/d' "$HOME"/.config/chromium-flags.conf
+}
+
+
+mode_switcher(){
+  NIGHT="  Night"
+  DAY="  Day"
+  DMENU="dmenu_wrapper -p 'Mode 󰔎 ' -i"
+  choice=$(echo -e "${GOBACK}\n${NIGHT}\n${DAY}" | eval "$DMENU")
+
+  case "$choice" in
+    "$GOBACK") main_menu ;;
+    "$NIGHT") night ;;
+    "$DAY") day ;;
+  esac
+}
+
+pstate_switcher(){
+  NORMAL_STATE="sudo x86_energy_perf_policy -hwp-epp default"
+  POWERSAVE_STATE="sudo x86_energy_perf_policy -hwp-epp balance-power"
+  EXTRA_POWERSAVE_STATE="sudo x86_energy_perf_policy -hwp-epp power"
+  NORMAL_ENTRY="󰚥  Normal"
+  POWERSAVE_ENTRY="󰂏  Powersave"
+  EXTRA_POWERSAVE_ENTRY="󰂐  Extra powersave"
+  CURRENT_STATE=$(cat /sys/devices/system/cpu/cpufreq/policy0/energy_performance_preference)
+
+  case "$CURRENT_STATE" in
+    "balance_performance") NORMAL_ENTRY="${NORMAL_ENTRY}   " ;; #             
+    "balance_power") POWERSAVE_ENTRY="${POWERSAVE_ENTRY}   " ;;
+    "power") EXTRA_POWERSAVE_ENTRY="${EXTRA_POWERSAVE_ENTRY}   " ;;
+  esac
+
+  DMENU="dmenu_wrapper -p 'Performance Level 󰂅 ' -i"
+  choice=$(echo -e "${GOBACK}\n${NORMAL_ENTRY}\n${POWERSAVE_ENTRY}\n${EXTRA_POWERSAVE_ENTRY}" | eval "$DMENU")
+
+  case "$choice" in
+    "$GOBACK") show_menu ;;
+    "$NORMAL_ENTRY") $NORMAL_STATE ;;
+    "$POWERSAVE_ENTRY") $POWERSAVE_STATE ;;
+    "$EXTRA_POWERSAVE_ENTRY") $EXTRA_POWERSAVE_STATE ;;
+esac
+}
+
+main_menu(){
+
+  THEME_MODE="󰔎   Theme Mode"
+  BTMENU="   Bluetooth"
+  PSTATE_MODE="󰂅   Powersave Mode"
+
+  DMENU="dmenu_wrapper -p '󰹯  ' -i"
+  choice=$(echo -e "${BTMENU}\n${THEME_MODE}\n${PSTATE_MODE}" | eval "$DMENU")
+
+  case "$choice" in
+    "$BTMENU") btmenu2 ;;
+    "$THEME_MODE") mode_switcher ;;
+    "$PSTATE_MODE") pstate_switcher ;;
+  esac
+}
+
+main_menu
