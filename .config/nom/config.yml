@@ -1,0 +1,9 @@
+autoread: true
+showread: false
+feeds:
+    - url: https://bugs.archlinux.org/feed.php?feed_type=rss2&project=1
+      name: Arch Bugs
+        #- url: https://eztv.li/ezrss.xml
+        #name: EZTV
+        #- url: https://www.limetorrents.lol/rss/16
+        #name: LimeMovies
