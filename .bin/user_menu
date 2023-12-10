@@ -3,6 +3,15 @@
 
 GOBACK=""
 
+padon() {
+    PADID=$(xinput list | grep 'Synaptics' | awk '{print $5}' | cut -d '=' -f2-)
+    xinput set-prop "$PADID" 185 1
+}
+
+padoff() {
+    PADID=$(xinput list | grep 'Synaptics' | awk '{print $5}' | cut -d '=' -f2-)
+    xinput set-prop "$PADID" 185 0
+}
 
 night() {
   xfconf-query -c xsettings -p /Net/ThemeName -t string -s "Matcha-dark-sea"
@@ -28,6 +37,19 @@ mode_switcher(){
     "$GOBACK") main_menu ;;
     "$NIGHT") night ;;
     "$DAY") day ;;
+  esac
+}
+
+touchpad(){
+  PADOFF="󰓶  OFF"
+  PADON="󰻎  ON"
+  DMENU="dmenu_wrapper -p 'Touchpad 󰓶 ' -i"
+  choice=$(echo -e "${GOBACK}\n${PADOFF}\n${PADON}" | eval "$DMENU")
+
+  case "$choice" in
+    "$GOBACK") main_menu ;;
+    "$PADOFF") padoff ;;
+    "$PADON") padon ;;
   esac
 }
 
@@ -62,14 +84,16 @@ main_menu(){
   THEME_MODE="󰔎   Theme Mode"
   BTMENU="   Bluetooth"
   PSTATE_MODE="󰂅   Powersave Mode"
+  TOUCHPAD="󰻎   Touchpad"
 
   DMENU="dmenu_wrapper -p '󰹯  ' -i"
-  choice=$(echo -e "${BTMENU}\n${THEME_MODE}\n${PSTATE_MODE}" | eval "$DMENU")
+  choice=$(echo -e "${BTMENU}\n${THEME_MODE}\n${PSTATE_MODE}\n${TOUCHPAD}" | eval "$DMENU")
 
   case "$choice" in
     "$BTMENU") btmenu2 ;;
     "$THEME_MODE") mode_switcher ;;
     "$PSTATE_MODE") pstate_switcher ;;
+    "$TOUCHPAD") touchpad ;;
   esac
 }
 

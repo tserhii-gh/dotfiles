@@ -56,34 +56,6 @@ mlive() {
     mpv --no-video "$1" >/dev/null 2>&1
 }
 
-padon() {
-    PADID=$(xinput list | grep 'Synaptics' | awk '{print $5}' | cut -d '=' -f2-)
-    xinput set-prop "$PADID" 185 1
-    # xinput set-prop $PADID 305 1
-}
-
-padoff() {
-    PADID=$(xinput list | grep 'Synaptics' | awk '{print $5}' | cut -d '=' -f2-)
-    xinput set-prop "$PADID" 185 0
-    # xinput set-prop $PADID 305 0
-}
-
-night() {
-    xfconf-query -c xsettings -p /Net/ThemeName -t string -s "Matcha-dark-sea"
-    xfconf-query -c xfwm4 -p /general/theme -t string -s "Matcha-dark-sea"
-    echo -e "--force-dark-mode\n--enable-features=WebUIDarkMode" >>"$HOME"/.config/chromium-flags.conf
-}
-
-day() {
-    xfconf-query -c xsettings -p /Net/ThemeName -t string -s "Matcha-sea"
-    xfconf-query -c xfwm4 -p /general/theme -t string -s "Matcha-sea"
-    sed -i '/--force-dark-mode/d' "$HOME"/.config/chromium-flags.conf
-    sed -i '/--enable-features=WebUIDarkMode/d' "$HOME"/.config/chromium-flags.conf
-}
-
-# function dotfiles {
-#    /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME $@
-# }
 
 alias setclip='xclip -selection c'
 alias getclip='xclip -selection c -o'
@@ -97,9 +69,9 @@ source /usr/share/fzf/completion.bash && source /usr/share/fzf/key-bindings.bash
 
 # Prevent MC using starship prompt
 ## shellcheck disable=SC2009
-# if ps $PPID | grep mc; then
-#     PS1="\[\033[1;94m\]{\[\e[1;92m\]\W\[\e[0m\]\[\033[1;94m\]}\[\e[0m\]\[\033[0;37m\] \[\e[1;91m\]> \[\e[0m\]"
-# else
-#     eval "$(starship init bash)"
-# fi
-#
+if ps $PPID | grep mc; then
+    PS1="\[\033[1;94m\]{\[\e[1;92m\]\W\[\e[0m\]\[\033[1;94m\]}\[\e[0m\]\[\033[0;37m\] \[\e[1;91m\]> \[\e[0m\]"
+else
+    eval "$(starship init bash)"
+fi
+
