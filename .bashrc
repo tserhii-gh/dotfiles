@@ -74,4 +74,4 @@ if ps $PPID | grep mc; then
 else
     eval "$(starship init bash)"
 fi
-
+# source $HOME/.profile
