@@ -62,16 +62,17 @@ alias getclip='xclip -selection c -o'
 
 #FZF
 # shellcheck disable=SC1091
-source /usr/share/fzf/completion.bash && source /usr/share/fzf/key-bindings.bash
+# source /usr/share/fzf/completion.bash && source /usr/share/fzf/key-bindings.bash
+eval "$(fzf --bash)"
 
 # Yarn
 # export PATH="$(yarn --offline global bin):$PATH"
 
 # Prevent MC using starship prompt
 ## shellcheck disable=SC2009
-if ps $PPID | grep mc; then
-    PS1="\[\033[1;94m\]{\[\e[1;92m\]\W\[\e[0m\]\[\033[1;94m\]}\[\e[0m\]\[\033[0;37m\] \[\e[1;91m\]> \[\e[0m\]"
-else
-    eval "$(starship init bash)"
-fi
+# if ps $PPID | grep mc; then
+#     PS1="\[\033[1;94m\]{\[\e[1;92m\]\W\[\e[0m\]\[\033[1;94m\]}\[\e[0m\]\[\033[0;37m\] \[\e[1;91m\]> \[\e[0m\]"
+# else
+#     eval "$(starship init bash)"
+# fi
 # source $HOME/.profile
