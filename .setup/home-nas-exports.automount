@@ -1,0 +1,9 @@
+[Unit]
+Description=Automount odroid exports share
+
+[Automount]
+Where=/home/nas/exports
+TimeoutIdleSec=10min
+
+[Install]
+WantedBy=multi-user.target

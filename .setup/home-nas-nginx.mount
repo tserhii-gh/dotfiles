@@ -1,0 +1,13 @@
+[Unit]
+Description=Mount odroid www share
+
+[Mount]
+What=192.168.50.100:/var/www
+Where=/home/nas/nginx
+Options=noatime
+Type=nfs
+TimeoutSec=30
+ForceUnmount=true
+
+[Install]
+WantedBy=multi-user.target
