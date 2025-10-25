@@ -1,0 +1,13 @@
+[Unit]
+Description=Mount odroid media share
+
+[Mount]
+What=192.168.50.100:/home/nas/data
+Where=/home/nas/data
+Options=noatime
+Type=nfs
+TimeoutSec=30
+ForceUnmount=true
+
+[Install]
+WantedBy=multi-user.target

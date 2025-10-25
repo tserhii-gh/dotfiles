@@ -1,0 +1,9 @@
+[Unit]
+Description=Automount odroid media share
+
+[Automount]
+Where=/home/nas/data
+TimeoutIdleSec=10min
+
+[Install]
+WantedBy=multi-user.target

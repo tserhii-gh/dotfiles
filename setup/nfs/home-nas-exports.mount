@@ -1,0 +1,13 @@
+[Unit]
+Description=Mount odroid exports share
+
+[Mount]
+What=192.168.50.100:/home/tserhii/exports
+Where=/home/nas/exports
+Options=noatime
+Type=nfs
+TimeoutSec=30
+ForceUnmount=true
+
+[Install]
+WantedBy=multi-user.target

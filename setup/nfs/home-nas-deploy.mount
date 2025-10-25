@@ -1,0 +1,13 @@
+[Unit]
+Description=Mount odroid deploy share
+
+[Mount]
+What=192.168.50.100:/home/tserhii/deploy
+Where=/home/nas/deploy
+Options=noatime
+Type=nfs
+TimeoutSec=30
+ForceUnmount=true
+
+[Install]
+WantedBy=multi-user.target
